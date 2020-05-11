@@ -1,0 +1,92 @@
+from random import *
+import ipywidgets as widgets
+from IPython.display import display
+key= {1 :"Schere", 2 : "Stein",3 : "Papier",4 : "Echse", 5 : "Spock"}
+
+
+auswahl = widgets.RadioButtons(
+            options=["Schere", "Stein", "Papier", "Echse", "Spock"],
+            description= "Was ist deine Wahl?",
+            disabled=False)
+
+neustart = widgets.Button(description="Neue Runde")
+
+ok = widgets.Button(description="OK")
+
+S = 0
+N = 0
+
+def Sieg():
+    global S
+    S = S + 1
+    
+def Niederlage():
+    global N
+    N = N + 1
+    
+def Neustart(event):
+    global S
+    S = 0
+    global N
+    N = 0  
+    neustart.layout.display = 'none'
+    auswahl.layout.display = 'true'
+    ok.layout.display =  'true'
+    ok.on_click(on_click) 
+    display(auswahl)
+    display(ok)
+    
+def on_click(event):
+    pw = auswahl.value   
+    x = randint(1, 5)
+    bw = key[x]
+
+
+        
+    print("Dein Gegner hat" + str(bw) + " gewählt")
+    print("Du hast " + str(pw) + " gewählt.")
+    
+    if bw == pw :
+            print("Unentschieden!")
+    elif pw == "Schere" and bw == ("Stein" or "Spock"):
+            print("Du hast die Runde verloren!")
+            Niederlage()
+    elif pw == "Stein" and bw == ("Papier" or "Spock") :
+            print("Du hast die Runde verloren!")
+            Niederlage()
+    elif pw =="Papier" and bw == ("Echse" or "Schere"):
+            print("Du hast die Runde verloren!")
+            Niederlage()
+    elif pw =="Echse" and bw == ("Schere" or "Stein"):
+            print("Du hast die Runde verloren!")
+            Niederlage()
+    elif pw == "Spock" and bw == ("Papier" or "Echse"):
+            print("Du hast die Runde verloren!")
+            Niederlage()
+    else:
+            print("Du hast die Runde gewonnen!")
+            Sieg()
+    print("Es steht " + str(S) + ":" + str(N) + "!") 
+    
+    if S == 3 :
+        print("Du hast das Spiel gewonnen!")  
+        neustart = widgets.Button(description="Neue Runde")
+        auswahl.layout.display = 'none'
+        ok.layout.display = 'none'
+        display(neustart)
+        neustart.on_click(Neustart)
+        
+    if  N == 3 :
+        print("Du hast das Spiel verloren...")
+        neustart = widgets.Button(description="Neue Runde")
+        auswahl.layout.display = 'none'
+        ok.layout.display = 'none'
+        display(neustart) 
+        neustart.on_click(Neustart)
+        
+        
+        
+if S < 3 and N < 3 :    
+    display(auswahl)
+    display(ok)    
+    ok.on_click(on_click)  
