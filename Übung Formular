@@ -1,0 +1,49 @@
+from __future__ import print_function
+from ipywidgets import interact, interactive, fixed, interact_manual
+import ipywidgets as widgets
+import csv
+
+
+def speichern(event):
+    print("Speichern in Exel")
+    
+    with open('Mappe1.csv', 'a', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=',',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        spamwriter.writerow(['Vorname']+['Nachname']+["Studienfach"])
+        spamwriter.writerow([Vorname.value, Nachname.value, Studienfach.value])
+        #Vorname.value=''
+        #Nachname.value=''
+        #Studienfach.value=''
+    
+
+Vorname = widgets.Text(value='',
+        placeholder='Type Prename',
+        description='Vorname:',
+        disabled=False)
+
+Nachname = widgets.Text(
+        value='',
+        placeholder='Type Surname',
+        description='Nachname:',
+        disabled=False)
+
+
+Studienfach = widgets.Dropdown(
+        options=['-','Mathematik', 'Physik', 'Informatik','Muelologie','Sportwissenschaften'],
+        description='Studienfach:',
+        disabled=False)
+
+Speichern = widgets.Button(
+        description='Speichern',
+        disabled=False,
+        button_style='success', # 'success', 'info', 'warning', 'danger' or ''
+        tooltip='Click me',
+        icon='check')
+
+Speichern.on_click(speichern)
+
+display(Vorname)
+display(Nachname)
+display(Studienfach)
+display(Speichern)
