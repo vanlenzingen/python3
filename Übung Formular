@@ -5,34 +5,51 @@ import csv
 
 
 def speichern(event):
-    print("Speichern in Exel")
     
-    with open('Mappe1.csv', 'a', newline='') as csvfile:
-        spamwriter = csv.writer(csvfile, delimiter=',',
-                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        spamwriter.writerow(['Vorname']+['Nachname']+["Studienfach"])
-        spamwriter.writerow([Vorname.value, Nachname.value, Studienfach.value])
-        #Vorname.value=''
-        #Nachname.value=''
-        #Studienfach.value=''
-    
+    vorname = Vorname.value
+    nachname = Nachname.value
+    fach = Studienfach.value
+    if nachname !="" and vorname !="" and fach !="-":
+        print("Speichern in Exel")
+        with open('Mappe1.csv', 'a', newline='') as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=',',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            #spamwriter.writerow(['Vorname']+['Nachname']+["Studienfach"])   
+            spamwriter.writerow([vorname, nachname, fach])
+            Vorname.value=''
+            Nachname.value=''
+            Studienfach.value='-'    
+
+    else:
+        print("Bitte alle Felder ausfüllen!")        
+        
+
+              
+liste_fach = ['-',
+              'Mathematik',
+              'Physik',
+              'Informatik',
+              'Muelologie',
+              'Sportwissenschaften']    
 
 Vorname = widgets.Text(value='',
         placeholder='Type Prename',
         description='Vorname:',
         disabled=False)
+display(Vorname)
 
 Nachname = widgets.Text(
         value='',
         placeholder='Type Surname',
         description='Nachname:',
         disabled=False)
-
+display(Nachname)
 
 Studienfach = widgets.Dropdown(
-        options=['-','Mathematik', 'Physik', 'Informatik','Muelologie','Sportwissenschaften'],
+        options=liste_fach,
         description='Studienfach:',
         disabled=False)
+display(Studienfach)
 
 Speichern = widgets.Button(
         description='Speichern',
@@ -40,10 +57,6 @@ Speichern = widgets.Button(
         button_style='success', # 'success', 'info', 'warning', 'danger' or ''
         tooltip='Click me',
         icon='check')
+display(Speichern)
 
 Speichern.on_click(speichern)
-
-display(Vorname)
-display(Nachname)
-display(Studienfach)
-display(Speichern)
