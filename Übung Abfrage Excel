@@ -1,0 +1,42 @@
+from __future__ import print_function
+from ipywidgets import interact, interactive, fixed, interact_manual
+import ipywidgets as widgets
+import csv
+
+fach = ["Mathematik","Physik","Informatik","Mueologie"]
+
+
+               
+        
+        
+Abfrage = widgets.SelectMultiple(
+    options=fach,
+    description='Fächer',
+    disabled=False)
+display(Abfrage)
+
+Suche = widgets.Button(
+    description='Filtern',
+    disabled=False,
+    button_style='success', # 'success', 'info', 'warning', 'danger' or ''
+    tooltip='Click me',
+    icon='check')
+display(Suche)
+
+def filtern(event):
+    with open('Mappe1.csv','r') as file:
+        for row in file:
+            row_abused = row.strip().split(',')
+            abfrage = str(Abfrage.value)
+            cheat1 = "('"
+            cheat2 = "',)"
+            cheat = cheat1+row_abused[2]+cheat2
+            print(cheat)
+            print(Abfrage.value)
+            if cheat == Abfrage.value :
+                print("stimmt")
+                print(row_abused)
+            else:
+                print('fail')
+    
+Suche.on_click(filtern)
